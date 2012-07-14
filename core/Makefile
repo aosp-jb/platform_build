@@ -350,7 +350,11 @@ INTERNAL_RAMDISK_FILES := $(filter $(TARGET_ROOT_OUT)/%, \
 	$(ALL_GENERATED_SOURCES) \
 	$(ALL_DEFAULT_INSTALLED_MODULES))
 
+ifeq ($(TARGET_BOOTLOADER_TYPE),uboot)
+BUILT_RAMDISK_TARGET := $(PRODUCT_OUT)/uInitrd
+else
 BUILT_RAMDISK_TARGET := $(PRODUCT_OUT)/ramdisk.img
+endif
 
 ifeq ($(HAVE_SELINUX),true)
 SELINUX_DEPENDS := sepolicy file_contexts seapp_contexts
@@ -360,7 +364,12 @@ endif
 INSTALLED_RAMDISK_TARGET := $(BUILT_RAMDISK_TARGET)
 $(INSTALLED_RAMDISK_TARGET): $(MKBOOTFS) $(INTERNAL_RAMDISK_FILES) $(SELINUX_DEPENDS) | $(MINIGZIP)
 	$(call pretty,"Target ram disk: $@")
+ifeq ($(TARGET_BOOTLOADER_TYPE),uboot)
+	$(hide) $(MKBOOTFS) $(TARGET_ROOT_OUT) | $(MINIGZIP) > $(PRODUCT_OUT)/obj/ramdisk.img
+	mkimage -A arm -O linux -T ramdisk -n "Android Ramdisk Image" -d $(PRODUCT_OUT)/obj/ramdisk.img $@
+else
 	$(hide) $(MKBOOTFS) $(TARGET_ROOT_OUT) | $(MINIGZIP) > $@
+endif
 
 
 ifneq ($(strip $(TARGET_NO_KERNEL)),true)

@@ -106,4 +106,9 @@ GRANDFATHERED_ALL_PREBUILT := \
 	wl1271.bin \
 	zoneinfo.dat \
 	zoneinfo.idx \
-	zoneinfo.version
+	zoneinfo.version \
+ifeq($(TARGET_BOOTLOADER_TYPE),uboot)
+	build-uboot \
+	build-mkenvimg
+endif
+
