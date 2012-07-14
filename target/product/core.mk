@@ -46,6 +46,7 @@ PRODUCT_PACKAGES := \
     atrace \
     bouncycastle \
     bu \
+    busybox \
     cacerts \
     com.android.location.provider \
     com.android.location.provider.xml \
@@ -60,6 +61,7 @@ PRODUCT_PACKAGES := \
     drmserver \
     dx \
     ext \
+    ffmpeg \
     framework-res \
     hprof-conv \
     icu.dat \
@@ -115,12 +117,15 @@ PRODUCT_PACKAGES := \
     libwilhelm \
     libz \
     make_ext4fs \
+    lrzsz \
     mdnsd \
     requestsync \
     screencap \
     sensorservice \
     lint \
-    uiautomator
+    uiautomator \
+    wpa_supplicant.conf \
+    x264
 
 PRODUCT_COPY_FILES += \
     system/core/rootdir/init.usb.rc:root/init.usb.rc \
